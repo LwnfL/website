@@ -14,7 +14,8 @@ h1,p {
 main {
     width: 100vw;
     height:100vh;
-    background-color: blueviolet;
+    background: rgb(2,0,36);
+    background: linear-gradient(166deg, rgba(2,0,36,1) 0%, rgba(40,9,121,1) 35%, rgba(0,190,255,1) 100%);    
     position: absolute;
     text-align: center;
 }
