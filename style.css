@@ -19,3 +19,13 @@ main {
     position: absolute;
     text-align: center;
 }
+
+.socialicon {
+    width:2em;
+    height:2em;
+    margin:1em;
+}
+
+.socialicon:hover{
+    opacity:0.8;
+}
