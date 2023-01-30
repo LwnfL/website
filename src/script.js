@@ -101,7 +101,7 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
-    mesh.rotation.x=elapsedTime*0.1
+    mesh.rotation.x=elapsedTime*0.1     //consistent spinning across devices
     mesh.rotation.z=elapsedTime*.07
 
 
