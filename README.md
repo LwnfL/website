@@ -1,4 +1,4 @@
-# Three.js Journey
+# This is my website code
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
