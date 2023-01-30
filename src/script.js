@@ -16,19 +16,19 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 // image.src = '/textures/door/color.jpg'
 
 /* Using TextureLoader */
-const textureLoader = new THREE.TextureLoader()
-const texture = textureLoader.load(
-    '/textures/door/color.jpg',
-    // ()=>{
-    //     console.log('loaded successfully')
-    // },
-    // ()=>{
-    //     console.log('loading...') //3 functions after the path
-    // },
-    // ()=>{
-    //     console.log('error')
-    // },
-    )
+// const textureLoader = new THREE.TextureLoader()
+// const texture = textureLoader.load(
+//     '/textures/door/color.jpg',
+//     // ()=>{
+//     //     console.log('loaded successfully')
+//     // },
+//     // ()=>{
+//     //     console.log('loading...') //3 functions after the path
+//     // },
+//     // ()=>{
+//     //     console.log('error')
+//     // },
+//     )
 
 /**
  * Base
@@ -42,8 +42,8 @@ const scene = new THREE.Scene()
 /**
  * Object
  */
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ map:texture })
+const geometry = new THREE.TorusKnotGeometry( 10, 3, 100, 16 );
+const material = new THREE.MeshNormalMaterial()
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
@@ -101,6 +101,9 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+    mesh.rotation.x+=.01
+    mesh.rotation.z+=.007
+
 
     // Update controls
     controls.update()
