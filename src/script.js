@@ -16,13 +16,13 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
-scene.fog = new THREE.Fog(0xFFFFFF,.1,30)
+// scene.fog = new THREE.Fog(0xFFFFFF,.1,30)
 
 //REMOVE
 
 //Axes helper
-const axesHelper = new THREE.AxesHelper() //x(red),y(green),z(blue)
-scene.add(axesHelper)
+// const axesHelper = new THREE.AxesHelper() //x(red),y(green),z(blue)
+// scene.add(axesHelper)
 
 /**
  * Textures
