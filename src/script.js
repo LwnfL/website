@@ -16,6 +16,7 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+scene.fog = new THREE.Fog(0xFFFFFF,.1,30)
 
 //REMOVE
 
@@ -42,6 +43,7 @@ const parameters = {
 }
 
 const fontLoader = new FontLoader()
+const donutgroup = new THREE.Group()  
 
 fontLoader.load(
     '/fonts/helvetiker_regular.typeface.json',
@@ -77,19 +79,19 @@ fontLoader.load(
 /**
  * Object
  */
-        const donutgroup = new THREE.Group()       
+             
         const donutGeometry = new THREE.TorusGeometry(.3,.2,20,45)
         
-        for (let i=1; i<500; i++)
+        for (let i=1; i<2000; i++)
         {
             const donut = new THREE.Mesh(donutGeometry,material)
             
-            const radius = Math.random() * (10 - 3) + 3
+            const radius = Math.random() * (30 - 10) + 10
             const theta = Math.random()*2*Math.PI
             const phi = Math.random()*2*Math.PI //find the bounds for these
             donut.position.x = Math.cos(phi)*Math.sin(theta)*radius
-            donut.position.z = Math.cos(theta)*radius
-            donut.position.y = Math.sin(phi)*Math.sin(theta)*radius
+            donut.position.y = Math.cos(theta)*radius
+            donut.position.z = Math.sin(phi)*Math.sin(theta)*radius
 
             donut.rotation.x = Math.random()*Math.PI
             donut.rotation.y = Math.random()*Math.PI
@@ -168,8 +170,8 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
-    // mesh.rotation.x=elapsedTime*0.1     //consistent spinning across devices
-    // mesh.rotation.z=elapsedTime*.07
+    donutgroup.rotation.x=elapsedTime*-.05     //consistent spinning across devices
+    donutgroup.rotation.z=elapsedTime*.07
 
 
     // Update controls
