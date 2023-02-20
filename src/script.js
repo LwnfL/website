@@ -1,28 +1,118 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import * as dat from 'lil-gui'
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
+import { TextGeometry} from 'three/examples/jsm/geometries/TextGeometry.js'
 
 /**
- * Textures
+ * Base Setup
  */
 
+// Debug
+const gui = new dat.GUI()
 
-/**
- * Base
- */
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
 
+//REMOVE
+
+//Axes helper
+const axesHelper = new THREE.AxesHelper() //x(red),y(green),z(blue)
+scene.add(axesHelper)
+
+/**
+ * Textures
+ */
+
+/**
+ * Fonts
+ */
+
+const parameters = {
+    size: 0.5, 
+    height: 0.2, //depth of font
+    curveSegments: 5, //lower = easier for computer
+    bevelThickness:.03,
+    bevelSize: .02,
+    bevelOffset: 0,
+    bevelSegments:3 //lower = easier for computer
+}
+
+const fontLoader = new FontLoader()
+
+fontLoader.load(
+    '/fonts/helvetiker_regular.typeface.json',
+    (font) => 
+    {
+        const textGeometry = new TextGeometry(
+            'Samantha Wang',
+            {
+                font : font,
+                size: parameters.size, 
+                height: parameters.height, 
+                curveSegments: parameters.curveSegments, 
+                bevelEnabled: true,
+                bevelThickness:parameters.bevelThickness,
+                bevelSize: parameters.bevelSize,
+                bevelOffset: parameters.bevelOffset,
+                bevelSegments:parameters.bevelSegments 
+            }
+        )
+        // textGeometry.computeBoundingBox()
+        // textGeometry.translate(
+        //     -(textGeometry.boundingBox.max.x-parameters.bevelSize) * .5,
+        //     -(textGeometry.boundingBox.max.y-parameters.bevelSize) * .5,
+        //     -textGeometry.boundingBox.max.z-parameters.bevelThickness * 0.5
+        // )        
+
+        textGeometry.center() //much simpler way than commented code above
+        console.log(textGeometry.boundingBox)        
+        const material = new THREE.MeshNormalMaterial()
+        const text = new THREE.Mesh(textGeometry, material)
+        scene.add(text)
+
 /**
  * Object
  */
-const geometry = new THREE.TorusKnotGeometry( 10, 3, 100, 16 );
-const material = new THREE.MeshNormalMaterial()
-material.side = THREE.DoubleSide
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
+        const donutgroup = new THREE.Group()       
+        const donutGeometry = new THREE.TorusGeometry(.3,.2,20,45)
+        
+        for (let i=1; i<500; i++)
+        {
+            const donut = new THREE.Mesh(donutGeometry,material)
+            
+            const radius = Math.random() * (10 - 3) + 3
+            const theta = Math.random()*2*Math.PI
+            const phi = Math.random()*2*Math.PI //find the bounds for these
+            donut.position.x = Math.cos(phi)*Math.sin(theta)*radius
+            donut.position.z = Math.cos(theta)*radius
+            donut.position.y = Math.sin(phi)*Math.sin(theta)*radius
+
+            donut.rotation.x = Math.random()*Math.PI
+            donut.rotation.y = Math.random()*Math.PI
+            
+            const scale = Math.random()
+            donut.scale.set(scale,scale,scale)
+            
+            donutgroup.add(donut)
+        
+        }
+        scene.add(donutgroup)
+    }
+)
+
+
+
+
+
+// const geometry = new THREE.TorusKnotGeometry( 10, 3, 100, 16 );
+// const material = new THREE.MeshNormalMaterial()
+// material.side = THREE.DoubleSide
+// const mesh = new THREE.Mesh(geometry, material)
+// scene.add(mesh)
 
 /**
  * Sizes
@@ -52,9 +142,9 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 1
-camera.position.y = 1
-camera.position.z = 1
+camera.position.x = 0
+camera.position.y = 0
+camera.position.z = 3
 scene.add(camera)
 
 // Controls
@@ -78,8 +168,8 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
-    mesh.rotation.x=elapsedTime*0.1     //consistent spinning across devices
-    mesh.rotation.z=elapsedTime*.07
+    // mesh.rotation.x=elapsedTime*0.1     //consistent spinning across devices
+    // mesh.rotation.z=elapsedTime*.07
 
 
     // Update controls
