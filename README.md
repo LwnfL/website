@@ -19,4 +19,4 @@ npm run build
 ```
 ## Acknowledgement and Colophon (To be Updated)
 
-[Math + code] (https://karthikkaranth.me/blog/generating-random-points-in-a-sphere/) for generating donuts at random points in a sphere  
+[Math + code](https://karthikkaranth.me/blog/generating-random-points-in-a-sphere/) for generating donuts at random points in a sphere  
