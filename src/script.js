@@ -79,7 +79,7 @@ fontLoader.load(
             const donut = new THREE.Mesh(donutGeometry,material)
             
             const radius = Math.cbrt(Math.random()) * (4) + 5 
-            /*(6) is how spread-out you want them to be, +3 is the minimum distance from axis*/
+            /*(4) is how spread-out you want them to be, +5 is the minimum distance from axis*/
             const theta = Math.random()*2*Math.PI
             const phi = Math.acos(2.0*Math.random()-1) //find the bounds for these
             donut.position.x = Math.cos(theta)*Math.sin(phi)*radius
