@@ -9,7 +9,8 @@ import { TextGeometry} from 'three/examples/jsm/geometries/TextGeometry.js'
  */
 
 // Debug
-const gui = new dat.GUI()
+
+// const gui = new dat.GUI()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -73,11 +74,11 @@ fontLoader.load(
              
         const donutGeometry = new THREE.TorusGeometry(.3,.2,20,45)
         
-        for (let i=1; i<2000; i++)
+        for (let i=1; i<1000; i++)
         {
             const donut = new THREE.Mesh(donutGeometry,material)
             
-            const radius = Math.cbrt(Math.random()) * (6) + 5 
+            const radius = Math.cbrt(Math.random()) * (4) + 5 
             /*(6) is how spread-out you want them to be, +3 is the minimum distance from axis*/
             const theta = Math.random()*2*Math.PI
             const phi = Math.acos(2.0*Math.random()-1) //find the bounds for these
@@ -128,7 +129,7 @@ window.addEventListener('resize', () =>
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 0
 camera.position.y = 0
-camera.position.z = 3
+camera.position.z = 5
 scene.add(camera)
 
 // Controls
