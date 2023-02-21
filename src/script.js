@@ -16,9 +16,6 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
-// scene.fog = new THREE.Fog(0xFFFFFF,.1,30)
-
-//REMOVE
 
 //Axes helper
 // const axesHelper = new THREE.AxesHelper() //x(red),y(green),z(blue)
@@ -62,13 +59,7 @@ fontLoader.load(
                 bevelOffset: parameters.bevelOffset,
                 bevelSegments:parameters.bevelSegments 
             }
-        )
-        // textGeometry.computeBoundingBox()
-        // textGeometry.translate(
-        //     -(textGeometry.boundingBox.max.x-parameters.bevelSize) * .5,
-        //     -(textGeometry.boundingBox.max.y-parameters.bevelSize) * .5,
-        //     -textGeometry.boundingBox.max.z-parameters.bevelThickness * 0.5
-        // )        
+        )      
 
         textGeometry.center() //much simpler way than commented code above
         console.log(textGeometry.boundingBox)        
@@ -106,16 +97,6 @@ fontLoader.load(
         scene.add(donutgroup)
     }
 )
-
-
-
-
-
-// const geometry = new THREE.TorusKnotGeometry( 10, 3, 100, 16 );
-// const material = new THREE.MeshNormalMaterial()
-// material.side = THREE.DoubleSide
-// const mesh = new THREE.Mesh(geometry, material)
-// scene.add(mesh)
 
 /**
  * Sizes
@@ -171,8 +152,8 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
-    // donutgroup.rotation.x=elapsedTime*-.05     //consistent spinning across devices
-    // donutgroup.rotation.z=elapsedTime*.07
+    donutgroup.rotation.x=elapsedTime*-.05     //consistent spinning across devices
+    donutgroup.rotation.z=elapsedTime*.07
 
 
     // Update controls
