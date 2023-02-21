@@ -41,3 +41,12 @@ main
     z-index: -1;
     outline: none;
 }
+
+.socialicon{
+    width:3em;
+    height:3em;
+    margin:0.5em;
+}
+.socialicon:hover{
+    opacity:0.8;
+} 
