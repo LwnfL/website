@@ -86,12 +86,13 @@ fontLoader.load(
         {
             const donut = new THREE.Mesh(donutGeometry,material)
             
-            const radius = Math.random() * (30 - 10) + 10
+            const radius = Math.cbrt(Math.random()) * (6) + 5 
+            /*(6) is how spread-out you want them to be, +3 is the minimum distance from axis*/
             const theta = Math.random()*2*Math.PI
-            const phi = Math.random()*2*Math.PI //find the bounds for these
-            donut.position.x = Math.cos(phi)*Math.sin(theta)*radius
-            donut.position.y = Math.cos(theta)*radius
-            donut.position.z = Math.sin(phi)*Math.sin(theta)*radius
+            const phi = Math.acos(2.0*Math.random()-1) //find the bounds for these
+            donut.position.x = Math.cos(theta)*Math.sin(phi)*radius
+            donut.position.z = Math.cos(phi)*radius
+            donut.position.y = Math.sin(phi)*Math.sin(theta)*radius
 
             donut.rotation.x = Math.random()*Math.PI
             donut.rotation.y = Math.random()*Math.PI
@@ -170,8 +171,8 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
-    donutgroup.rotation.x=elapsedTime*-.05     //consistent spinning across devices
-    donutgroup.rotation.z=elapsedTime*.07
+    // donutgroup.rotation.x=elapsedTime*-.05     //consistent spinning across devices
+    // donutgroup.rotation.z=elapsedTime*.07
 
 
     // Update controls
