@@ -44,7 +44,7 @@ const fontLoader = new FontLoader()
 const donutgroup = new THREE.Group()  
 
 fontLoader.load(
-    'fonts/helvetiker_regular.typeface.json',
+    'https://lwnfl.github.io/website/fonts/helvetiker_regular.typeface.json',
     (font) => 
     {
         const textGeometry = new TextGeometry(
