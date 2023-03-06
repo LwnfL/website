@@ -30,6 +30,31 @@ const scene = new THREE.Scene()
  * Fonts
  */
 
+class Drop {
+    constructor(x,y,z){
+      this.x = x;
+      this.y = y;
+      this.z = z;
+      this.yspeed=Math.random();
+      const geometry = new THREE.TorusGeometry(.3,.2,20,45)
+      const material = new THREE.MeshNormalMaterial()
+      this.mesh = new THREE.Mesh(geometry,material)
+      this.mesh.position.x = this.x
+      this.mesh.position.y = this.y
+      this.mesh.position.z = this.z
+      scene.add(this.mesh)
+    }
+    updatePhysics(){
+      this.y-=this.yspeed*0.1
+      if (this.y < -5) {
+        this.y=Math.random()*10
+      }
+    }
+    updateMesh(){
+        this.mesh.position.y=this.y
+    }
+  }
+
 const parameters = {
     size: 0.5, 
     height: 0.2, //depth of font
@@ -42,6 +67,15 @@ const parameters = {
 
 const fontLoader = new FontLoader()
 const donutgroup = new THREE.Group()  
+
+const drops = []
+        for(let i = 0; i < 100; i++){
+            const radius = Math.cbrt(Math.random()) * (4) + 5 
+            /*(4) is how spread-out you want them to be, +5 is the minimum distance from axis*/
+            const theta = Math.random()*2*Math.PI
+            const phi = Math.acos(2.0*Math.random()-1) //find the bounds for these
+            drops.push(new Drop(Math.cos(theta)*Math.sin(phi)*radius,Math.sin(phi)*Math.sin(theta)*radius,Math.cos(phi)*radius))
+        }     
 
 fontLoader.load(
     'https://lwnfl.github.io/website/fonts/helvetiker_regular.typeface.json',
@@ -71,31 +105,29 @@ fontLoader.load(
 /**
  * Object
  */
-             
-        const donutGeometry = new THREE.TorusGeometry(.3,.2,20,45)
         
-        for (let i=1; i<1000; i++)
-        {
-            const donut = new THREE.Mesh(donutGeometry,material)
-            
-            const radius = Math.cbrt(Math.random()) * (4) + 5 
-            /*(4) is how spread-out you want them to be, +5 is the minimum distance from axis*/
-            const theta = Math.random()*2*Math.PI
-            const phi = Math.acos(2.0*Math.random()-1) //find the bounds for these
-            donut.position.x = Math.cos(theta)*Math.sin(phi)*radius
-            donut.position.z = Math.cos(phi)*radius
-            donut.position.y = Math.sin(phi)*Math.sin(theta)*radius
 
-            donut.rotation.x = Math.random()*Math.PI
-            donut.rotation.y = Math.random()*Math.PI
-            
-            const scale = Math.random()
-            donut.scale.set(scale,scale,scale)
-            
-            donutgroup.add(donut)
+        // const donutGeometry = new THREE.TorusGeometry(.3,.2,20,45)
         
-        }
-        scene.add(donutgroup)
+        // for (let i=1; i<1000; i++)
+        // {
+        //     const donut = new THREE.Mesh(donutGeometry,material)
+            
+            
+        //     donut.position.x = Math.cos(theta)*Math.sin(phi)*radius
+        //     donut.position.z = Math.cos(phi)*radius
+        //     donut.position.y = Math.sin(phi)*Math.sin(theta)*radius
+
+        //     donut.rotation.x = Math.random()*Math.PI
+        //     donut.rotation.y = Math.random()*Math.PI
+            
+        //     const scale = Math.random()
+        //     donut.scale.set(scale,scale,scale)
+            
+        //     donutgroup.add(donut)
+        
+        // }
+        // scene.add(donutgroup)
     }
 )
 
@@ -156,6 +188,12 @@ const tick = () =>
     donutgroup.rotation.x=elapsedTime*-.05     //consistent spinning across devices
     donutgroup.rotation.z=elapsedTime*.07
 
+    drops.forEach((drop)=>{
+        // console.log(e)
+        drop.updatePhysics()
+        drop.updateMesh()
+    })
+ 
 
     // Update controls
     controls.update()
