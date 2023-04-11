@@ -35,7 +35,12 @@ class Drop {
       this.x = x;
       this.y = y;
       this.z = z;
-      this.yspeed=Math.random();
+
+      this.xrot=Math.random()*-0.5;
+      this.yrot=Math.random()*0.7;
+      
+
+      this.yspeed=2+5*Math.random();
       const geometry = new THREE.TorusGeometry(.3,.2,20,45)
       const material = new THREE.MeshNormalMaterial()
       this.mesh = new THREE.Mesh(geometry,material)
@@ -44,12 +49,20 @@ class Drop {
       this.mesh.position.z = this.z
       scene.add(this.mesh)
     }
+
     updatePhysics(){
       this.y-=this.yspeed*0.1
+    //   donutgroup.rotation.x=elapsedTime*-.05 
       if (this.y < -5) {
-        this.y=Math.random()*10
+        this.y=20+Math.random()*10
       }
     }
+
+    updateRot(time){
+        this.mesh.rotation.x=time*this.xrot
+        this.mesh.rotation.y=time*this.yrot
+        }
+    
     updateMesh(){
         this.mesh.position.y=this.y
     }
@@ -66,14 +79,14 @@ const parameters = {
 }
 
 const fontLoader = new FontLoader()
-const donutgroup = new THREE.Group()  
+// const donutgroup = new THREE.Group()  
 
 const drops = []
-        for(let i = 0; i < 100; i++){
-            const radius = Math.cbrt(Math.random()) * (4) + 5 
+        for(let i = 0; i < 500; i++){
+            const radius = Math.cbrt(Math.random()) * (8) + 8 
             /*(4) is how spread-out you want them to be, +5 is the minimum distance from axis*/
             const theta = Math.random()*2*Math.PI
-            const phi = Math.acos(2.0*Math.random()-1) //find the bounds for these
+            const phi = Math.acos(2.0*Math.random()-1)
             drops.push(new Drop(Math.cos(theta)*Math.sin(phi)*radius,Math.sin(phi)*Math.sin(theta)*radius,Math.cos(phi)*radius))
         }     
 
@@ -102,32 +115,6 @@ fontLoader.load(
         const text = new THREE.Mesh(textGeometry, material)
         scene.add(text)
 
-/**
- * Object
- */
-        
-
-        // const donutGeometry = new THREE.TorusGeometry(.3,.2,20,45)
-        
-        // for (let i=1; i<1000; i++)
-        // {
-        //     const donut = new THREE.Mesh(donutGeometry,material)
-            
-            
-        //     donut.position.x = Math.cos(theta)*Math.sin(phi)*radius
-        //     donut.position.z = Math.cos(phi)*radius
-        //     donut.position.y = Math.sin(phi)*Math.sin(theta)*radius
-
-        //     donut.rotation.x = Math.random()*Math.PI
-        //     donut.rotation.y = Math.random()*Math.PI
-            
-        //     const scale = Math.random()
-        //     donut.scale.set(scale,scale,scale)
-            
-        //     donutgroup.add(donut)
-        
-        // }
-        // scene.add(donutgroup)
     }
 )
 
@@ -158,7 +145,7 @@ window.addEventListener('resize', () =>
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1,1000)
 camera.position.x = 0
 camera.position.y = 0
 camera.position.z = 5
@@ -185,12 +172,11 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
-    donutgroup.rotation.x=elapsedTime*-.05     //consistent spinning across devices
-    donutgroup.rotation.z=elapsedTime*.07
 
     drops.forEach((drop)=>{
         // console.log(e)
         drop.updatePhysics()
+        drop.updateRot(elapsedTime)
         drop.updateMesh()
     })
  
